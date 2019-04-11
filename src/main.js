@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
+import './common/scss/reset.scss'
 
 Vue.config.productionTip = false
 
