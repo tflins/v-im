@@ -6,13 +6,16 @@ import MainInterface from './views/MainInterface'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'MainInterface',
+      meta: {
+        requiresAuth: true
+      },
       component: MainInterface
     },
     {
@@ -27,3 +30,19 @@ export default new Router({
     }
   ]
 })
+
+// 登录拦截
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('token')
+  if (to.meta.requiresAuth) {
+    if (token) {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()
+  }
+})
+
+export default router
