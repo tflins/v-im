@@ -6,7 +6,7 @@
         <mu-form-item label="邮箱" prop="email" :rules="emailRules">
           <mu-text-field v-model="validateForm.email" prop="email"></mu-text-field>
         </mu-form-item>
-        <mu-form-item label="用户名" prop="username" :rules="usernameRules">
+        <mu-form-item label="昵称" prop="username" :rules="usernameRules">
           <mu-text-field v-model="validateForm.username" prop="username"></mu-text-field>
         </mu-form-item>
         <mu-form-item label="密码" prop="password" :rules="passwordRules">

@@ -7,7 +7,12 @@
 <script>
 
 export default {
-  name: 'App'
+  name: 'App',
+  sockets: {
+    connect() {
+      console.log('成功连接服务器')
+    }
+  }
 }
 </script>
 
