@@ -55,8 +55,7 @@ export default {
       this.$refs.form.clear()
       this.validateForm = {
         email: '',
-        password: '',
-        isAgree: false
+        password: ''
       }
     },
     _login() {
@@ -65,6 +64,7 @@ export default {
           login(this.validateForm).then(res => {
             if (res.success) {
               localStorage.setItem('token', res.data.token)
+              this.$socket.emit('login', res.data.userInfo)
               location.replace('/');
             } else {
               this.$toast.error(res.msg || '登录失败');

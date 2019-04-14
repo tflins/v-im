@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from './views/Login'
 import Register from './views/Register'
 import MainInterface from './views/MainInterface'
+import GroupChat from './views/GroupChat'
 
 Vue.use(Router)
 
@@ -16,7 +17,14 @@ const router = new Router({
       meta: {
         requiresAuth: true
       },
-      component: MainInterface
+      component: MainInterface,
+      children: [
+        {
+          path: 'groupchat',
+          name: 'GroupChat',
+          component: GroupChat
+        }
+      ]
     },
     {
       path: '/login',
