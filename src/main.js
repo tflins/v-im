@@ -4,13 +4,16 @@ import router from './router'
 import store from './store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
-import './common/scss/reset.scss'
+import Toast from 'muse-ui-toast'
+import './common/scss/index.scss'
 import VueSocketio from 'vue-socket.io'
-// import socketio from 'socket.io-client'
 
 Vue.config.productionTip = false
 
 Vue.use(MuseUI)
+Vue.use(Toast, {
+  position: 'top'
+})
 Vue.use(new VueSocketio({
   debug: true,
   connection: 'http://localhost:5000/'

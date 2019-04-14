@@ -10,10 +10,11 @@
           <mu-text-field type="password" v-model="validateForm.password" prop="password"></mu-text-field>
         </mu-form-item>
         <mu-form-item>
-          <mu-button color="primary" @click="submit">登录</mu-button>
+          <mu-button color="primary" @click.enter="_login">登录</mu-button>
           <mu-button @click="clear">重置</mu-button>
           <router-link to="/register">
             <a class="reg-text">没有账号?注册</a>
+            <i class="iconfont icon-success"></i>
           </router-link>
         </mu-form-item>
       </mu-form>
@@ -22,6 +23,8 @@
 </template>
 
 <script>
+import { login } from '../../api/user'
+
 export default {
   name: 'Login',
   data() {
@@ -48,11 +51,6 @@ export default {
     }
   },
   methods: {
-    submit() {
-      this.$refs.form.validate().then(result => {
-        console.log('form valid: ', result)
-      })
-    },
     clear() {
       this.$refs.form.clear()
       this.validateForm = {
@@ -60,6 +58,20 @@ export default {
         password: '',
         isAgree: false
       }
+    },
+    _login() {
+      this.$refs.form.validate().then(result => {
+        if (result) {
+          login(this.validateForm).then(res => {
+            if (res.success) {
+              localStorage.setItem('token', res.data.token)
+              location.replace('/');
+            } else {
+              this.$toast.error(res.msg || '登录失败');
+            }
+          })
+        }
+      })
     }
   }
 }
