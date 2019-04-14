@@ -17,6 +17,7 @@ const router = new Router({
       meta: {
         requiresAuth: true
       },
+      redirect: '/groupchat',
       component: MainInterface,
       children: [
         {
