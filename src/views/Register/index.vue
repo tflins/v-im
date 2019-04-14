@@ -6,8 +6,8 @@
         <mu-form-item label="邮箱" prop="email" :rules="emailRules">
           <mu-text-field v-model="validateForm.email" prop="email"></mu-text-field>
         </mu-form-item>
-        <mu-form-item label="昵称" prop="username" :rules="usernameRules">
-          <mu-text-field v-model="validateForm.username" prop="username"></mu-text-field>
+        <mu-form-item label="昵称" prop="name" :rules="usernameRules">
+          <mu-text-field v-model="validateForm.name" prop="name"></mu-text-field>
         </mu-form-item>
         <mu-form-item label="密码" prop="password" :rules="passwordRules">
           <mu-text-field type="password" v-model="validateForm.password" prop="password"></mu-text-field>
@@ -16,7 +16,7 @@
           <mu-text-field type="password" v-model="validateForm.repassword" prop="password"></mu-text-field>
         </mu-form-item>
         <mu-form-item>
-          <mu-button color="secondary" @click="submit">注册</mu-button>
+          <mu-button color="secondary" @click="_register">注册</mu-button>
           <mu-button @click="clear">重置</mu-button>
           <router-link to="/login">
             <a class="reg-text">已有账号?登录</a>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { register } from '../../api/user'
+
 export default {
   name: 'Register',
   data() {
@@ -62,14 +64,23 @@ export default {
       validateForm: {
         email: '',
         password: '',
-        username: ''
+        name: ''
       }
     }
   },
   methods: {
-    submit() {
+    _register() {
       this.$refs.form.validate().then(result => {
-        console.log('form valid: ', result)
+        if (result) {
+          register(this.validateForm).then(res => {
+            if (res.success) {
+              this.$toast.success(res.msg || '注册成功')
+              this.clear()
+            } else {
+              this.$toast.error(res.msg || '注册失败')
+            }
+          })
+        }
       })
     },
     clear() {

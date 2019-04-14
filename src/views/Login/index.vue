@@ -67,7 +67,7 @@ export default {
               this.$socket.emit('login', res.data.userInfo)
               location.replace('/');
             } else {
-              this.$toast.error(res.msg || '登录失败');
+              this.$toast.error(res.msg || '登录失败')
             }
           })
         }
