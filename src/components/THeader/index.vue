@@ -1,6 +1,6 @@
 <template>
   <mu-container>
-    <mu-tabs center color="teal">
+    <mu-tabs inverse color="secondary" text-color="rgba(0, 0, 0, .54)"  center>
       <mu-tab to="/groupchat">
         <mu-icon value="question_answer"></mu-icon>聊天室
       </mu-tab>

@@ -24,6 +24,7 @@
 
 <script>
 import { login } from '../../api/user'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Login',
@@ -59,12 +60,14 @@ export default {
       }
     },
     _login() {
+      const _this = this
       this.$refs.form.validate().then(result => {
         if (result) {
           login(this.validateForm).then(res => {
             if (res.success) {
               localStorage.setItem('token', res.data.token)
               this.$socket.emit('login', res.data.userInfo)
+              this.setUserInfo(res.data.userInfo)
               location.replace('/');
             } else {
               this.$toast.error(res.msg || '登录失败')
@@ -72,7 +75,10 @@ export default {
           })
         }
       })
-    }
+    },
+    ...mapMutations({
+      setUserInfo: 'SET_USERINFO'
+    })
   }
 }
 </script>
