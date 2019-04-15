@@ -13,11 +13,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { userInfo } from "os";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "MessageItem",
+  name: 'MessageItem',
   props: {
     name: {
       type: String
@@ -28,14 +27,14 @@ export default {
   },
   computed: {
     avatar() {
-      return this.name.substr(0, 1);
+      return this.name.substr(0, 1)
     },
     isMe() {
-      return this.userInfo.name === this.name ? true : false;
+      return this.userInfo.name === this.name
     },
-    ...mapGetters(["userInfo"])
+    ...mapGetters(['userInfo'])
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -23,7 +23,10 @@ const router = new Router({
         {
           path: 'groupchat',
           name: 'GroupChat',
-          component: GroupChat
+          component: GroupChat,
+          meta: {
+            requiresAuth: true
+          }
         }
       ]
     },
