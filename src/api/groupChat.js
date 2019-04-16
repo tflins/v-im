@@ -16,3 +16,17 @@ export function saveGroupMessage(query) {
       throw err
     })
 }
+
+// 获取全体群聊天信息
+export function getGroupMessage() {
+  const url = '/api/groupchart/getgroupmessage'
+
+  return axios
+    .get(url)
+    .then(response => {
+      return Promise.resolve(response.data)
+    })
+    .catch(err => {
+      throw err
+    })
+}
