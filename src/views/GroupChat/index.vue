@@ -4,7 +4,7 @@
       <message-item v-for="item in messageList" class="item"
         :message="item.message"
         :key="item.key"
-        :name="item.userInfo.name"
+        :name="item.username"
       ></message-item>
     </div>
     <div class="message-form">
@@ -20,6 +20,7 @@
 <script>
 import MessageItem from '../../components/MessageItem'
 import { mapGetters } from 'vuex'
+import { saveGroupMessage } from '../../api/groupChat'
 
 export default {
   name: 'GroupChat',
@@ -40,12 +41,23 @@ export default {
         return
       }
       const data = {
-        userInfo: this.userInfo,
-        message: this.message,
-        key: Math.random()
+        userid: this.userInfo.id,
+        username: this.userInfo.name,
+        message: this.message
       }
-      this.$socket.emit('sendGroupMsg', data)
+      this.$socket.emit('sendGroupMsg', Object.assign({
+        key: Math.random()
+      }, data))
+      this._saveGroupMessage(data)
       this.message = ''
+    },
+    _saveGroupMessage(data) {
+      saveGroupMessage(data)
+        .then(res => {
+          console.log(data)
+        }).catch(err => {
+          throw err
+        })
     }
   },
   components: {
