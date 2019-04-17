@@ -114,15 +114,38 @@
       </mu-list>
     </mu-paper>
     </GeminiScrollbar>
-    <mu-button fab color="teal">
-    <mu-icon value="add"></mu-icon>
-  </mu-button>
+
+    <full-dialog title="添加好友" :openFullscreen="openFullscreen" @closeFullscreenDialog="closeFullscreenDialog">
+      <mu-text-field label="输入用户昵称" full-width color="secondary"></mu-text-field>
+    </full-dialog>
+
+    <mu-button fab color="teal" class="fr" @click="openFullscreenDialog">
+      <mu-icon value="add"></mu-icon>
+    </mu-button>
   </mu-container>
 </template>
 
 <script>
+import FullDialog from '../../components/FullDialog'
+
 export default {
-  name: 'Friends'
+  name: 'Friends',
+  data() {
+    return {
+      openFullscreen: false
+    }
+  },
+  methods: {
+    openFullscreenDialog() {
+      this.openFullscreen = true
+    },
+    closeFullscreenDialog() {
+      this.openFullscreen = false
+    }
+  },
+  components: {
+    FullDialog
+  }
 }
 </script>
 
