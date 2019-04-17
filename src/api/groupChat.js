@@ -22,7 +22,7 @@ export function getGroupMessage() {
   const url = '/api/groupchart/getgroupmessage'
 
   return axios
-    .get(url)
+    .get(HOST + url)
     .then(response => {
       return Promise.resolve(response.data)
     })

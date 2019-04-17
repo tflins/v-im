@@ -1,26 +1,25 @@
 <template>
-  <div class="group-chat">
-    <div class="msg-list">
+  <mu-container class="group-chat">
+    <GeminiScrollbar class="msg-list">
       <message-item v-for="item in messageList" class="item"
         :message="item.message"
-        :key="item.key"
+        :key="item.key || item._id"
         :name="item.username"
       ></message-item>
-    </div>
+    </GeminiScrollbar>
     <div class="message-form">
-      <mu-text-field v-model="message" placeholder="请输入你的消息"></mu-text-field>
-      <mu-button color="red" @click="_send">
-        Send
+      <mu-text-field v-model="message" placeholder="请输入你的消息" color="red"></mu-text-field>
+      <mu-button icon color="red" @click="_send">
         <mu-icon right value="send"></mu-icon>
       </mu-button>
     </div>
-  </div>
+  </mu-container>
 </template>
 
 <script>
 import MessageItem from '../../components/MessageItem'
 import { mapGetters } from 'vuex'
-import { saveGroupMessage } from '../../api/groupChat'
+import { saveGroupMessage, getGroupMessage } from '../../api/groupChat'
 
 export default {
   name: 'GroupChat',
@@ -58,6 +57,13 @@ export default {
         }).catch(err => {
           throw err
         })
+    },
+    _getGroupMessage() {
+      getGroupMessage().then(res => {
+        if (res.success) {
+          this.messageList = res.data
+        }
+      })
     }
   },
   components: {
@@ -65,26 +71,25 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo'])
+  },
+  created() {
+    this._getGroupMessage()
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .group-chat {
-  // background-color: ;
-  max-width: 80%;
-  margin-left: 50%;
-  transform: translateX(-50%);
   .msg-list {
     height: 500px;
-    overflow: scroll;
+    overflow: auto;
     .item {
       margin-top: 10px;
     }
   }
   .message-form {
     margin-left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-30%);
   }
 }
 </style>

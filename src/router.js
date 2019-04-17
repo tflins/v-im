@@ -4,6 +4,7 @@ import Login from './views/Login'
 import Register from './views/Register'
 import MainInterface from './views/MainInterface'
 import GroupChat from './views/GroupChat'
+import Friends from './views/Friends'
 
 Vue.use(Router)
 
@@ -24,6 +25,14 @@ const router = new Router({
           path: 'groupchat',
           name: 'GroupChat',
           component: GroupChat,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'friends',
+          name: 'Friends',
+          component: Friends,
           meta: {
             requiresAuth: true
           }

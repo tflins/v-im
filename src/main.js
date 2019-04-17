@@ -8,6 +8,7 @@ import Toast from 'muse-ui-toast'
 import './common/scss/index.scss'
 import VueSocketio from 'vue-socket.io'
 import axios from 'axios'
+import GeminiScrollbar from 'vue-gemini-scrollbar'
 
 Vue.config.productionTip = false
 
@@ -21,6 +22,7 @@ Vue.use(
     connection: 'http://localhost:5000/'
   })
 )
+Vue.use(GeminiScrollbar)
 
 // http request 拦截器
 axios.interceptors.request.use(

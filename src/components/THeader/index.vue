@@ -1,17 +1,17 @@
 <template>
-  <mu-container>
-    <mu-tabs inverse color="secondary" text-color="rgba(0, 0, 0, .54)"  center>
+  <div>
+    <mu-tabs color="secondary" text-color="rgba(0, 0, 0, .54)"  center>
       <mu-tab to="/groupchat">
         <mu-icon value="question_answer"></mu-icon>聊天室
       </mu-tab>
-      <mu-tab>
+      <mu-tab to="/friends">
         <mu-icon value="account_circle"></mu-icon>好友
       </mu-tab>
       <mu-tab>
         <mu-icon value="face"></mu-icon>个人中心
       </mu-tab>
     </mu-tabs>
-  </mu-container>
+  </div>
 </template>
 
 <script>
