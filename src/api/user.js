@@ -32,3 +32,21 @@ export function register(userInfo) {
       throw err
     })
 }
+
+// 根据昵称获取用户列表
+export function getName(name) {
+  const url = '/api/user/getname'
+
+  return axios
+    .get(HOST + url, {
+      params: {
+        name: name
+      }
+    })
+    .then(response => {
+      return Promise.resolve(response.data)
+    })
+    .catch(err => {
+      throw err
+    })
+}
