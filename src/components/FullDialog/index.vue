@@ -1,7 +1,7 @@
 <template>
   <mu-container>
     <mu-dialog width="360" transition="slide-bottom" fullscreen :open.sync="openFullscreen">
-      <mu-appbar color="secondary" :title="title">
+      <mu-appbar color="teal" :title="title">
         <mu-button slot="left" icon @click="closeFullscreenDialog">
           <mu-icon value="close"></mu-icon>
         </mu-button>

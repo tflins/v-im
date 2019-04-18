@@ -1,6 +1,6 @@
 <template>
   <mu-container class="group-chat">
-    <GeminiScrollbar class="msg-list">
+    <GeminiScrollbar class="msg-list" ref="msgList">
       <message-item v-for="item in messageList" class="item"
         :message="item.message"
         :key="item.key || item._id"
@@ -53,7 +53,6 @@ export default {
     _saveGroupMessage(data) {
       saveGroupMessage(data)
         .then(res => {
-          console.log(data)
         }).catch(err => {
           throw err
         })
@@ -74,6 +73,15 @@ export default {
   },
   created() {
     this._getGroupMessage()
+  },
+  watch: {
+    // 监听消息列表,滚动至末尾
+    messageList() {
+      this.$nextTick(() => {
+        const scrollDom = document.querySelector('.gm-scroll-view')
+        scrollDom.scrollTop = scrollDom.scrollHeight
+      })
+    }
   }
 }
 </script>
@@ -89,7 +97,7 @@ export default {
   }
   .message-form {
     margin-left: 50%;
-    transform: translateX(-30%);
+    transform: translateX(-50%);
   }
 }
 </style>

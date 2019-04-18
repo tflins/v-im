@@ -1,5 +1,5 @@
 <template>
-  <mu-container>
+  <div>
     <GeminiScrollbar class="friends">
     <mu-paper :z-depth="1">
       <mu-list>
@@ -26,7 +26,7 @@
     </GeminiScrollbar>
 
     <full-dialog title="添加好友" :openFullscreen="openFullscreen" @closeFullscreenDialog="closeFullscreenDialog">
-      <mu-text-field label="输入用户昵称" v-model.trim="searchStr" full-width color="secondary" placeholder=""></mu-text-field>
+      <mu-text-field label="输入用户昵称" v-model.trim="searchStr" full-width color="teal" placeholder=""></mu-text-field>
       <mu-list>
         <mu-list-item avatar button :ripple="false" v-for="item in searchList" :key="item._id">
           <mu-list-item-action>
@@ -44,7 +44,7 @@
     <mu-button fab color="teal" class="fr" @click="openFullscreenDialog">
       <mu-icon value="add"></mu-icon>
     </mu-button>
-  </mu-container>
+  </div>
 </template>
 
 <script>

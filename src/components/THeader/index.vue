@@ -1,22 +1,24 @@
 <template>
-  <div>
-    <mu-tabs color="secondary" text-color="rgba(0, 0, 0, .54)"  center>
-      <mu-tab to="/groupchat">
-        <mu-icon value="question_answer"></mu-icon>聊天室
-      </mu-tab>
-      <mu-tab to="/friends">
-        <mu-icon value="account_circle"></mu-icon>好友
-      </mu-tab>
-      <mu-tab>
-        <mu-icon value="face"></mu-icon>个人中心
-      </mu-tab>
-    </mu-tabs>
-  </div>
+  <mu-appbar style="width: 100%;" color="primary">
+  <mu-button icon slot="left">
+    <mu-icon value="menu"></mu-icon>
+  </mu-button>
+  {{ title }}
+  <mu-button flat slot="right">
+    <slot></slot>
+  </mu-button>
+</mu-appbar>
 </template>
 
 <script>
 export default {
-  name: 'THeader'
+  name: 'THeader',
+  props: {
+    title: {
+      type: String,
+      default: '消息'
+    }
+  }
 }
 </script>
 
