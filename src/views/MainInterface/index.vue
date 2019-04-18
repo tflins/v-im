@@ -1,6 +1,8 @@
 <template>
   <div class="main-interface">
-    <t-header :title="title"></t-header>
+    <t-header :title="title">
+        <mu-icon value="add"></mu-icon>
+    </t-header>
     <router-view/>
     <bottom-nav></bottom-nav>
   </div>
@@ -20,6 +22,9 @@ export default {
   components: {
     THeader,
     BottomNav
+  },
+  computed: {
+
   }
 }
 </script>

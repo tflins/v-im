@@ -77,7 +77,7 @@ export default {
       })
     },
     ...mapMutations({
-      setUserInfo: 'SET_USERINFO'
+      setUserInfo: 'setUserInfo'
     })
   }
 }

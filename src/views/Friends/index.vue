@@ -25,8 +25,8 @@
     </mu-paper>
     </GeminiScrollbar>
 
-    <full-dialog title="添加好友" :openFullscreen="openFullscreen" @closeFullscreenDialog="closeFullscreenDialog">
-      <mu-text-field label="输入用户昵称" v-model.trim="searchStr" full-width color="teal" placeholder=""></mu-text-field>
+    <full-dialog title="添加好友" :openFullscreen="openAddFriends" @closeFullscreenDialog="closeFullscreenDialog">
+      <mu-text-field label="输入用户昵称" v-model.trim="searchStr" full-width color="#2196f3" placeholder=""></mu-text-field>
       <mu-list>
         <mu-list-item avatar button :ripple="false" v-for="item in searchList" :key="item._id">
           <mu-list-item-action>
@@ -40,16 +40,13 @@
       </mu-list>
       <p v-show="!searchList.length &&  searchStr">未找到该用户</p>
     </full-dialog>
-
-    <mu-button fab color="teal" class="fr" @click="openFullscreenDialog">
-      <mu-icon value="add"></mu-icon>
-    </mu-button>
   </div>
 </template>
 
 <script>
 import FullDialog from '../../components/FullDialog'
 import { getName } from '../../api/user'
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   name: 'Friends',
@@ -65,11 +62,11 @@ export default {
     }
   },
   methods: {
-    openFullscreenDialog() {
-      this.openFullscreen = true
-    },
+    ...mapMutations({
+      setOpenAddFriends: 'setOpenAddFriends'
+    }),
     closeFullscreenDialog() {
-      this.openFullscreen = false
+      this.setOpenAddFriends(false)
     },
     // 搜素用户
     searchName() {
@@ -95,6 +92,9 @@ export default {
     searchStr() {
       this.searchName()
     }
+  },
+  computed: {
+    ...mapGetters(['openAddFriends'])
   }
 }
 </script>

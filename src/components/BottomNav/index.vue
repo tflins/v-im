@@ -1,19 +1,19 @@
 <template>
-  <mu-bottom-nav :value.sync="shift" class="bottom-nav">
+  <mu-bottom-nav :value.sync="shift" class="bottom-nav" @change="handleChange">
     <mu-bottom-nav-item
-      value="message"
+      value="消息"
       title="消息"
       icon="chat_bubble_outline"
       to="/message"
     ></mu-bottom-nav-item>
     <mu-bottom-nav-item
-      value="friends"
+      value="好友"
       title="好友"
       icon="people"
       to="/friends"
     ></mu-bottom-nav-item>
     <mu-bottom-nav-item
-      value="discover"
+      value="探索"
       title="探索"
       icon="explore"
     ></mu-bottom-nav-item>
@@ -21,10 +21,19 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
       shift: 'message'
+    }
+  },
+  methods: {
+    ...mapMutations({
+      setHeaderTitle: 'setHeaderTitle'
+    }),
+    handleChange(val) {
+      this.setHeaderTitle(val)
     }
   }
 }
