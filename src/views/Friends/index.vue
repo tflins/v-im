@@ -1,8 +1,15 @@
 <template>
   <div>
     <GeminiScrollbar class="friends">
+    <div class="new-friends" v-if="newFriends.length" @click="newFriend">
+      <mu-icon value="assignment_ind" class="left" />
+      <span class="text">新的好友请求!</span>
+      <mu-icon value="chevron_right" class="right" />
+    </div>
+
     <mu-paper :z-depth="1">
       <mu-list>
+        <mu-sub-header>好友</mu-sub-header>
         <mu-list-item avatar button :ripple="false">
           <mu-list-item-action>
             <mu-avatar>L</mu-avatar>
@@ -12,7 +19,6 @@
             <mu-icon value="chat_bubble"></mu-icon>
           </mu-list-item-action>
         </mu-list-item>
-        <mu-divider></mu-divider>
         <mu-list-item avatar button :ripple="false">
           <mu-list-item-action>
             <mu-avatar>L</mu-avatar>
@@ -47,6 +53,23 @@
       <mu-button slot="actions" flat color="primary" @click="sendVerifyMsg">发送</mu-button>
     </mu-dialog>
     </full-dialog>
+
+    <full-dialog title="新的好友" :openFullscreen="newFriendDialog" @closeFullscreenDialog="closeNewFriend">
+      <mu-list>
+        <mu-list-item avatar button :ripple="false" v-for="item in newFriends" :key="item._id" @click="handleFriend(item)">
+          <mu-list-item-action>
+            <mu-avatar>{{ item.from_uid.name.substr(0, 1) }}</mu-avatar>
+          </mu-list-item-action>
+          <mu-list-item-title>{{ item.from_uid.name }}</mu-list-item-title>
+        </mu-list-item>
+      </mu-list>
+
+      <mu-dialog v-if="handleFriendInfo.from_uid" :title="handleFriendInfo.from_uid.name" width="600" max-width="80%" :esc-press-close="false" :overlay-close="false" :open.sync="handleFriendDialog">
+        <div>{{ handleFriendInfo.message }}</div>
+        <mu-button slot="actions" flat color="primary" @click="closeHandleFriend">取消</mu-button>
+      <mu-button slot="actions" flat color="primary" @click="sendVerifyMsg">同意</mu-button>
+    </mu-dialog>
+  </full-dialog>
   </div>
 </template>
 
@@ -54,7 +77,7 @@
 import FullDialog from '../../components/FullDialog'
 import { getName } from '../../api/user'
 import { mapMutations, mapGetters } from 'vuex'
-import { addFriends } from '../../api/friends'
+import { addFriends, getnewfriends } from '../../api/friends'
 
 export default {
   name: 'Friends',
@@ -70,8 +93,16 @@ export default {
       // 加好有验证信息
       verifyMessage: '',
       // 添加好友的uid
-      to_uid: ''
+      toUid: '',
+      // 新的好友请求
+      newFriends: [],
+      newFriendDialog: false,
+      handleFriendDialog: false,
+      handleFriendInfo: {}
     }
+  },
+  created() {
+    this._getnewfriends()
   },
   methods: {
     ...mapMutations({
@@ -99,7 +130,7 @@ export default {
     addFriend(uid) {
       this.openAlert = true
       this.verifyMessage = ''
-      this.to_uid = uid
+      this.toUid = uid
     },
     closeAlertDialog() {
       this.openAlert = false
@@ -107,7 +138,7 @@ export default {
     sendVerifyMsg() {
       const data = {
         from_uid: this.userInfo.id,
-        to_uid: this.to_uid,
+        to_uid: this.toUid,
         message: this.verifyMessage
       }
       addFriends(data).then(res => {
@@ -120,6 +151,28 @@ export default {
       }).catch(err => {
         throw err
       })
+    },
+    _getnewfriends() {
+      getnewfriends().then(res => {
+        if (res.success) {
+          this.newFriends = res.data
+        }
+      }).catch(err => {
+        throw err
+      })
+    },
+    newFriend() {
+      this.newFriendDialog = true
+    },
+    closeNewFriend() {
+      this.newFriendDialog = false
+    },
+    handleFriend(info) {
+      this.handleFriendInfo = info
+      this.handleFriendDialog = true
+    },
+    closeHandleFriend() {
+      this.handleFriendDialog = false
     }
   },
   components: {
@@ -140,5 +193,22 @@ export default {
 .friends {
   height: 500px;
   overflow: auto;
+  .new-friends {
+    position: relative;
+    height: 8vh;
+    line-height: 8vh;
+    text-align:center;
+    .mu-icon {
+      position: absolute;
+      top: 50%;
+      transform:translate(-50%, -50%);
+    }
+    .left {
+      left: 10%;
+    }
+    .right {
+      right: 10%;
+    }
+  }
 }
 </style>
