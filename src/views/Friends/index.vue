@@ -10,20 +10,11 @@
     <mu-paper :z-depth="1">
       <mu-list>
         <mu-sub-header>好友</mu-sub-header>
-        <mu-list-item avatar button :ripple="false">
+        <mu-list-item avatar button :ripple="false" v-for="item in friends" :key="item.userid">
           <mu-list-item-action>
-            <mu-avatar>L</mu-avatar>
+            <mu-avatar>{{ item.name.substr(0, 1) }}</mu-avatar>
           </mu-list-item-action>
-          <mu-list-item-title>Myron Liu</mu-list-item-title>
-          <mu-list-item-action>
-            <mu-icon value="chat_bubble"></mu-icon>
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action>
-            <mu-avatar>L</mu-avatar>
-          </mu-list-item-action>
-          <mu-list-item-title>Myron Liu</mu-list-item-title>
+          <mu-list-item-title>{{ item.name }}</mu-list-item-title>
           <mu-list-item-action>
             <mu-icon value="chat_bubble"></mu-icon>
           </mu-list-item-action>
@@ -64,10 +55,10 @@
         </mu-list-item>
       </mu-list>
 
-      <mu-dialog v-if="handleFriendInfo.from_uid" :title="handleFriendInfo.from_uid.name" width="600" max-width="80%" :esc-press-close="false" :overlay-close="false" :open.sync="handleFriendDialog">
+      <mu-dialog title="验证消息" width="600" max-width="80%" :esc-press-close="false" :overlay-close="false" :open.sync="handleFriendDialog">
         <div>{{ handleFriendInfo.message }}</div>
         <mu-button slot="actions" flat color="primary" @click="closeHandleFriend">取消</mu-button>
-      <mu-button slot="actions" flat color="primary" @click="sendVerifyMsg">同意</mu-button>
+      <mu-button slot="actions" flat color="primary" @click="sendAddToFriends">同意</mu-button>
     </mu-dialog>
   </full-dialog>
   </div>
@@ -77,7 +68,7 @@
 import FullDialog from '../../components/FullDialog'
 import { getName } from '../../api/user'
 import { mapMutations, mapGetters } from 'vuex'
-import { addFriends, getnewfriends } from '../../api/friends'
+import { addFriends, getnewfriends, addToFriends, getfriendslist } from '../../api/friends'
 
 export default {
   name: 'Friends',
@@ -103,6 +94,7 @@ export default {
   },
   created() {
     this._getnewfriends()
+    this._getfriendslist()
   },
   methods: {
     ...mapMutations({
@@ -152,6 +144,7 @@ export default {
         throw err
       })
     },
+    // 获取新好友请求
     _getnewfriends() {
       getnewfriends().then(res => {
         if (res.success) {
@@ -173,6 +166,30 @@ export default {
     },
     closeHandleFriend() {
       this.handleFriendDialog = false
+    },
+    sendAddToFriends() {
+      console.log(this.handleFriendInfo)
+      const data = {
+        userid: this.handleFriendInfo.from_uid._id,
+        name: this.handleFriendInfo.from_uid.name
+      }
+      addToFriends(data).then(res => {
+        console.log(res)
+      }).catch(err => {
+        throw err
+      })
+    },
+    _getfriendslist() {
+      getfriendslist().then(res => {
+        if (res.success) {
+          this.friends = res.data[0].friends
+          console.log(res.data[0].friends)
+        } else {
+          this.friends = []
+        }
+      }).catch(err => {
+        throw err
+      })
     }
   },
   components: {

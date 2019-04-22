@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      shift: 'message'
+      shift: '消息'
     }
   },
   methods: {
@@ -35,6 +35,9 @@ export default {
     handleChange(val) {
       this.setHeaderTitle(val)
     }
+  },
+  computed: {
+    ...mapGetters(['headerTitle'])
   }
 }
 </script>

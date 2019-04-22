@@ -30,3 +30,33 @@ export function getnewfriends() {
       throw err
     })
 }
+
+// 添加好友到数据库
+export function addToFriends(query) {
+  const url = '/api/friends/addfriends'
+
+  const data = Object.assign({}, query)
+
+  return axios
+    .post(HOST + url, data)
+    .then(response => {
+      return Promise.resolve(response.data)
+    })
+    .catch(err => {
+      throw err
+    })
+}
+
+// 获取好友列表
+export function getfriendslist() {
+  const url = '/api/friends/getfriendslist'
+
+  return axios
+    .get(HOST + url)
+    .then(response => {
+      return Promise.resolve(response.data)
+    })
+    .catch(err => {
+      throw err
+    })
+}

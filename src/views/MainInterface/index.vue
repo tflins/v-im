@@ -3,7 +3,9 @@
     <t-header :title="title">
         <mu-icon value="add"></mu-icon>
     </t-header>
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
     <bottom-nav></bottom-nav>
   </div>
 </template>
