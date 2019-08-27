@@ -50,3 +50,21 @@ export function getName(name) {
       throw err
     })
 }
+
+// 根据id获取用户列表
+export function getUserById(uid) {
+  const url = '/api/user/getuserbyid'
+
+  return axios
+    .get(HOST + url, {
+      params: {
+        uid: uid
+      }
+    })
+    .then(response => {
+      return Promise.resolve(response.data)
+    })
+    .catch(err => {
+      throw err
+    })
+}

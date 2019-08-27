@@ -6,6 +6,7 @@ import MainInterface from './views/MainInterface'
 import GroupChat from './views/GroupChat'
 import Friends from './views/Friends'
 import Message from './views/Message'
+import PrivateChat from './views/PrivateChat'
 
 Vue.use(Router)
 
@@ -42,6 +43,14 @@ const router = new Router({
           path: 'message',
           name: 'Message',
           component: Message,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'privateChat',
+          name: 'PrivateChat',
+          component: PrivateChat,
           meta: {
             requiresAuth: true
           }

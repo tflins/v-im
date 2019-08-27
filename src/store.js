@@ -10,7 +10,15 @@ export default new Vuex.Store({
     // 页头标题
     headerTitle: '消息',
     // 添加好友弹窗
-    openAddFriends: false
+    openAddFriends: false,
+    // 私聊窗口
+    privateChat: false,
+    // 当前私聊用户id
+    toUserId: '',
+    // 当前聊天信息
+    msgList: [],
+    // 当前聊天用户信息
+    chatUserInfo: {}
   },
   mutations: {
     setUserInfo(state, userInfo) {
@@ -22,6 +30,18 @@ export default new Vuex.Store({
     },
     setOpenAddFriends(state, status) {
       state.openAddFriends = status
+    },
+    setPrivateChat(state, status) {
+      state.privateChat = status
+    },
+    setToUserId(state, info) {
+      state.toUserId = info
+    },
+    setChatUserInfo(state, data) {
+      state.chatUserInfo = data
+    },
+    setMsgList(state, data) {
+      state.msgList = data
     }
   },
   actions: {
@@ -36,6 +56,18 @@ export default new Vuex.Store({
     },
     openAddFriends(state) {
       return state.openAddFriends
+    },
+    privateChat(state) {
+      return state.privateChat
+    },
+    toUserId(state) {
+      return state.toUserId
+    },
+    chatUserInfo(state) {
+      return state.chatUserInfo
+    },
+    msgList(state) {
+      return state.msgList
     }
   }
 })

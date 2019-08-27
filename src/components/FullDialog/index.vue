@@ -7,7 +7,7 @@
         </mu-button>
         <mu-button slot="right" flat @click="closeFullscreenDialog">Done</mu-button>
       </mu-appbar>
-      <div style="padding: 24px;">
+      <div style="padding:0 24px 0 24px; height: 500px;">
         <slot></slot>
       </div>
     </mu-dialog>

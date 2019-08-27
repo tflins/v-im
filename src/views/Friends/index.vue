@@ -10,7 +10,7 @@
     <mu-paper :z-depth="1">
       <mu-list>
         <mu-sub-header>好友</mu-sub-header>
-        <mu-list-item avatar button :ripple="false" v-for="item in friends" :key="item.userid">
+        <mu-list-item avatar button :ripple="false" v-for="item in friends" :key="item.userid" @click="selectItem(item.userid)">
           <mu-list-item-action>
             <mu-avatar>{{ item.name.substr(0, 1) }}</mu-avatar>
           </mu-list-item-action>
@@ -66,9 +66,10 @@
 
 <script>
 import FullDialog from '../../components/FullDialog'
-import { getName } from '../../api/user'
+import { getName, getUserById } from '../../api/user'
 import { mapMutations, mapGetters } from 'vuex'
 import { addFriends, getnewfriends, addToFriends, getfriendslist } from '../../api/friends'
+import { getPrivateChatMsg } from '../../api/privateChat'
 
 export default {
   name: 'Friends',
@@ -98,7 +99,11 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setOpenAddFriends: 'setOpenAddFriends'
+      setOpenAddFriends: 'setOpenAddFriends',
+      setPrivateChat: 'setPrivateChat',
+      setToUserId: 'setToUserId',
+      setChatUserInfo: 'setChatUserInfo',
+      setMsgList: 'setMsgList'
     }),
     closeFullscreenDialog() {
       this.setOpenAddFriends(false)
@@ -190,6 +195,31 @@ export default {
       }).catch(err => {
         throw err
       })
+    },
+    selectItem(uid) {
+      this.setToUserId(uid)
+      this.setPrivateChat(true)
+      const params = {
+        from_uid: this.userInfo.id,
+        to_uid: uid
+      }
+      // 聊天记录
+      getPrivateChatMsg(params).then(res => {
+        if (res.success) {
+          this.setMsgList(res.data)
+        } else {
+          this.setMsgList([])
+        }
+      })
+      // 好友用户信息
+      getUserById(uid).then(res => {
+        if (res.success) {
+          this.setChatUserInfo(res.data)
+        } else {
+          this.setChatUserInfo({})
+        }
+      })
+      this.$router.push('/privatechat')
     }
   },
   components: {
